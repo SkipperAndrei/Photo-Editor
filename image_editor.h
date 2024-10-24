@@ -1,0 +1,51 @@
+#ifndef IMG_EDIT_H
+#define IMG_EDIT_H
+#include "image_functions.c"
+char *alloc_memory_char(int x);
+char *get_command(char *input);
+char *get_parameters(char *input);
+int *alloc_memory_int(int x);
+int *get_parameters_select(char *sir);
+int *get_parameters_histogram(char *sir);
+int **alloc_memory_int_mat(int col, int linii);
+int does_file_exist(FILE *f);
+void who_cares_about_comments(FILE *f);
+FILE *open_the_file(char *input);
+char *interpret_the_image(FILE *f, char *input);
+poza_t *alloc_memory_poza_ascii(int latime, int inaltime, int tip);
+poza_t *alloc_memory_poza(int latime, int inaltime, int tip);
+int **copy_to_int(unsigned char *sir, int width, int height);
+poza_t *actual_fill_img(char *input, FILE *input_file);
+poza_t *picture_fatality(poza_t *p);
+poza_t *copy_sel(poza_t *poz, int c[]);
+poza_t *selection_solver(char *input, poza_t *poz);
+int clamp(int x, int min, int max);
+void freecolors(int **mat, int lin);
+int check_interval(int a, int b, int x);
+int **apply_sharpen(int **mat, int col, int lin, poza_t *poz);
+poza_t *sharp(poza_t *poz);
+int **apply_edge(int **mat, int col, int lin, poza_t *poz);
+poza_t *edge(poza_t *poz);
+int **apply_blur(int **mat, int col, int lin, poza_t *poz);
+poza_t *blurring(poza_t *poz);
+int **apply_gauss(int **mat, int col, int lin, poza_t *poz);
+poza_t *gauss(poza_t *poz);
+poza_t *apply_solver(char *input, poza_t *poza, char *param);
+poza_t *crop(poza_t *poza);
+int verify_power(int x);
+int *fill_the_freq(poza_t *poz, int x, int y);
+int find_maximum(int *v, int dim);
+int histogram_solver(poza_t *poza, char *sir);
+poza_t *equalize_it(poza_t *poz);
+int get_parameters_rotate(char *input);
+int verify_angle(int x);
+int check_square(poza_t *poz);
+int neg(int x);
+poza_t *rotate_pic(poza_t *poz);
+poza_t *rotate_pic_rgb_frag(poza_t *poz);
+poza_t *rotate_pic_rgb_full(poza_t *poz);
+poza_t *rotate_solver(poza_t *poz, char *input);
+int is_ascii_or_not(char *input);
+char *get_filename(char *input);
+int save_file(poza_t *poz, char *input);
+#endif

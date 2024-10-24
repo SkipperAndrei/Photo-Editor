@@ -1,0 +1,42 @@
+Copyright 2023-2024 Giurgiu Andrei-Stefan 315CA
+
+Pentru a realiza tema cu numarul 3 mi-am creat 3 fisiere : "image_editor.c", "image_functions.c" si "image_editor.h". Primul contine functia main in care se afla parserul de comenzi dar si apelul functiilor care trebuie sa execute comenzile valide.
+Al doilea fisier contine toate functiile auxiliare care au rolul de a oferi outputul corect utilizatorului, iar cel de-al treilea fisier este un header care contine toate declaratiile acestor functii.
+In primul rand, utilizatorul introduce in terminal un sir de cuvinte finalizat prin tasta "Enter". Primul cuvant(si al doilea in cazul lui SELECT ALL) reprezinta comanda dorita iar restul cuvintelor, daca exista, sunt parametrii. In cazul in care comanda este valida se va executa una din cele 10 operatii.
+Poza care urmeaza sa fie editata este retinuta intr-o variabila de tip struct care contine tipul imaginii (identificat printr-un cod: 3 -> P3, 6->P6, 12->P2 si 15->P5), dimensiunile acesteia, valorile pixelilor dar si coordonatele zonei selectate(poza este selectata in intregime by default).
+Mai jos voi detalia ce se intampla in cadrul fiecarei comenzi.
+
+1. Comanda LOAD: 
+Utilizatorul doreste incarcarea in memorie a unei poze asa ca introduce comanda LOAD, urmata de calea fisierului in care se afla poza. In cazul in care fisierul exista, atunci se deschide fisierul in modul read, iar valorile din fisier sunt retinute in memorie.
+In cazul in care fisierul nu exista, programul ramane in starea in care nu are nicio imagine incarcata
+
+2. Comanda SELECT/SELECT ALL:
+Utilizatorul introduce coordonatele zonei din poza care doreste a fi selectata. In cazul in care coordonatele sunt corecte, atunci zona va fi selectata in campurile x1, y1, x2, y2. Altfel, va fi afisat un mesaj de eroare.
+De asemenea, pentru a putea selecta o zona trebuie ca o poza sa fie deja incarcata.
+
+3. Comanda ROTATE:
+Utilizatorul introduce unghiul cu care vrea sa intoarca imaginea. In cazul in care unghiul este divizibil cu 90, atunci matricea va fi rotita. In caz contrar, va fi afisat un mesaj de eroare. In plus, daca nu este selectata toata imaginea, zona care este selectata trebuie sa fie un patrat.
+La fel ca la comanda anterioara, pentru ca aceasta comanda sa poata fi executata trebuie ca o poza sa fie deja incarcata.
+
+4. Comanda CROP:
+Utilizatorul poate reduce poza incarcata la zona selectata prin intermediul acestei comenzi. In cazul in care este selectata toata imaginea se va afisa mesajul de indeplinire cu succes a comenzii, dar poza va fi nemodificata.
+La fel ca la comenzile anterioara, aceasta comanda are nevoie de o poza incarcata pentru a se executa
+Aceasta comanda nu admite parametrii.
+
+5. Comanda APPLY:
+Utilizatorul poate aplica unul dintre filtrele: Sharpen, Edge Detect, Blur si Blur Gaussian asupra imaginii incarcate in memorie (daca este vreo imagine incarcata). Pentru ca aceasta comanda sa fie executata trebuie ca poza incarcata sa aiba formatul PPM (adica sa aiba valoarea 3 sau valoarea 6 in campul "color").
+Comanda aplica pe fiecare canal de culoare kernelul corespunzator filtrului avand complexitatea timp O(n*m), unde n si m sunt dimensiunile pozei.
+
+6. Comanda HISTOGRAM:
+Utilizatorul poate afisa pe ecran histograma pozei PGM ( poza care are valoarea 12 sau 15 in campul "color") in y binuri si x stelute. Pentru ca aceasta comanda sa se execute corect, y trebuie sa fie o putere a lui 2 mai mica sau egala cu 256. In cazul in care parametrii sunt corecti si poza incarcata este PGM atunci se va aplica algoritmul de determinare al histogramei in complexitatea temporala O(y).
+
+7. Comanda EQUALIZE:
+Pentru a nu pierde detalii importante din poza incarcata, utilizatorul poate folosi aceasta comanda pentru a egaliza imaginea PGM ( valoarea 12 sau 15 in campul "color"). Aceasta se realizeaza pe toata imaginea indiferent de selectia curenta, conform algoritmului de egalizare.
+Aceasta comanda nu admite parametrii.
+
+8. Comanda SAVE:
+Dupa aplicarea tuturor operatiilor de mai sus, daca utilizatorul doreste sa pastreze imaginea rezultat, acesta poate folosi comanda SAVE. Pentru a fi executata, trebuie sa fie o imagine incarcata in memorie. Salvarea se poate face in 2 moduri: ASCII sau binar. 
+Modul de salvare dorit va fi determinat in urma celui de al treilea parametru al acestei comenzi(daca al treilea parametru nu exista atunci se va salva binar(format P5 sau P6), daca al treilea parametru este cuvantul "ascii", atunci se va salva in format ASCII(P2 sau P3).
+
+9. Comanda EXIT:
+Aceasta comanda marcheaza finalul programului, toate resursele folosite pana in momentul aparitiei acesteia fiind dealocate(indiferent daca a fost apelata comanda SAVE sau nu) iar programul este finalizat.
